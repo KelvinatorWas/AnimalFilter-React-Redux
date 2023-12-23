@@ -34,3 +34,50 @@
   border-radius: 6px;
   background-color: gray;
 }
+
+.edit_input {
+  margin-top: 1rem;
+  border-radius: 6px;
+  font-size: small;
+  font-weight: bold;
+  outline: none;
+  background-color: rgb(246, 245, 245);
+  border: none;
+  padding: 8px 4px;
+}
+
+.button {
+  background-color: ghostwhite;
+  border: 3px solid ghostwhite;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: bold;
+  flex: 1;
+
+  &:hover {
+    background-color: rgb(255, 255, 0);
+    border: 3px solid rgb(255, 255, 0);
+  }
+
+  &.edit {
+    margin-top: 2rem;
+  }
+
+  &.save:hover {
+    background-color: rgb(21, 255, 0);
+    border: 3px solid rgb(0, 136, 5);
+    color: white;
+  }
+
+  &.delete:hover {
+    background-color: rgb(255, 0, 0);
+    border: 3px solid rgb(136, 0, 0);
+    color: white;
+  }
+}
+
+.edit_wrapper {
+  display: flex;
+  column-gap: 0.5rem;
+  justify-content: center;
+}

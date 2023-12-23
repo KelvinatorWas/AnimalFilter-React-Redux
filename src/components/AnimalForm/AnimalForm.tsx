@@ -18,16 +18,30 @@ export const AnimalForm = () => {
     <form id="addAnimal"className={css.form_wrapper}>
       <div className={css.input_container}>
         <label>Name:</label>
-        <input form='addAnimal' type="text" onChange={changeInputName} value={name} required/>
+        <input
+          className={css.input}
+          form='addAnimal'
+          type="text"
+          onChange={changeInputName}
+          value={name}
+          required
+          />
       </div>
 
       <div className={css.input_container}>
         <label>Image:</label>
-        <input type="text" form='addAnimal' onChange={changeInputImage} value={image} required/>
+        <input
+          className={css.input}
+          type="text"
+          form='addAnimal'
+          onChange={changeInputImage}
+          value={image}
+          required
+        />
       </div>
 
-      <button form="addAnimal" type='submit' onClick={addAnimal}>Submit</button>
-      <button onClick={clearLocalStorage}>Clear Local Storage</button>
+      <button className={`${css.button} ${css.edit} ${css.save}`} form="addAnimal" type='submit' onClick={addAnimal}>Submit</button>
+      <button className={`${css.button} ${css.edit} ${css.delete}`} onClick={clearLocalStorage}>Clear Local Storage</button>
     </form>
   );
 }

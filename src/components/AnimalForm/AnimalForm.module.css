@@ -16,3 +16,32 @@
   column-gap: 8px;
   align-items: center;
 }
+
+.input {
+  border-radius: 6px;
+  font-size: small;
+  font-weight: bold;
+  outline: none;
+  background-color: rgb(246, 245, 245);
+  border: none;
+  padding: 8px 4px;
+}
+
+.button {
+  background-color: ghostwhite;
+  border: none;
+  border-radius: 5px;
+  font-size: small;
+  font-weight:bold;
+  padding: 6px 8px;
+
+  &.save:hover {
+    background-color: rgb(21, 255, 0);
+    color: white;
+  }
+
+  &.delete:hover {
+    background-color: rgb(255, 0, 0);
+    color: white;
+  }
+}
