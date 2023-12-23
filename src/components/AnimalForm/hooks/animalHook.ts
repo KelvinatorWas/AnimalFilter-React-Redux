@@ -2,7 +2,6 @@ import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { setImage, setName, addAnimal } from "../../../app/animalSlice";
 
-
 export const HookAnimalForm = () => {
   const dispatch = useDispatch();
 
