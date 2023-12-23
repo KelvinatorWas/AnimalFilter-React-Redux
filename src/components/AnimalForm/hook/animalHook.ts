@@ -1,6 +1,10 @@
 import { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import { setImage, setName, addAnimal } from "../../../app/animalSlice";
+import { setImage, setName, addAnimal, setAnimals } from "../../../app/animalSlice";
+
+const clearData = (dataLocation:string) => {
+  localStorage.setItem(dataLocation, "[]");
+};
 
 export const HookAnimalForm = () => {
   const dispatch = useDispatch();
@@ -18,9 +22,16 @@ export const HookAnimalForm = () => {
     dispatch(addAnimal());
   };
 
+  const clearLocalStorage = (e:React.MouseEvent) => {
+    e.preventDefault();
+    clearData("animals");
+    dispatch(setAnimals([]));
+  };  
+
   return {
     changeInputImage,
     changeInputName,
     onSubmitAnimalForm,
+    clearLocalStorage
   };
 };

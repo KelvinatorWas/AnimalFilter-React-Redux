@@ -1,25 +1,15 @@
-import { useState } from "react";
 import { AnimalForm } from "../AnimalForm/AnimalForm";
 import css from './AnimalManager.module.css'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { deleteAnimal, sortAnimals } from "../../app/animalSlice";
 import { Animal } from "../Animal/Animal";
+import { SortAnimals } from "./hook/sortAnimals";
 
-enum sort {'↑', '↓'}
+enum sort {'↑', '↓'};
 
 export const AnimalManager = () => {
-  const { animals } = useSelector((state:RootState) => state.animals)
-  const dispatch = useDispatch();
-
-  const [sortMode, setSortMode] = useState< 1 | 0>(0)
-  //console.log("Ani: ",animals)
-
-  const deleteAnimalButton = (e:React.MouseEvent, id:number) => {
-    e.preventDefault();
-    dispatch(deleteAnimal(id));
-  }
-
+  const { animals, animalInEdit, sortMode} = useSelector((state:RootState) => state.animals);
+  const handleSort = SortAnimals();
 
   return (
     <>
@@ -27,27 +17,25 @@ export const AnimalManager = () => {
       <section className={css.animal_section}>
         <div
           className={`${css.data_container} ${css.unselectable}`}
-          onClick={() => {
-            setSortMode(!sortMode ? 1 : 0);
-            dispatch(sortAnimals(sortMode))
-          }}  
-        >Name {sort[sortMode]}</div>
+          onClick={handleSort}
+          >Name {sort[sortMode]}
+        </div>
       </section>
+
       { !animals.length ? <h3>No Animals</h3> : "" }
+
       <section className={css.animal_wrapper}>
       {
-
         animals.map((animal, index) => 
           <Animal
             key={index}
             data={animal}
             index={index}
-            deleteAnimal={deleteAnimalButton}
+            editMode={animalInEdit}
           />
         )
       }
       </section>
-
     </>
   );
 };

@@ -1,21 +1,13 @@
 import { useSelector } from 'react-redux';
 import css from './AnimalForm.module.css'
 import { RootState } from '../../app/store';
-import { HookAnimalForm } from './hooks/animalHook';
+import { HookAnimalForm } from './hook/animalHook';
 import React from 'react';
 
-const clearData = (dataLocation:string) => {
-  localStorage.setItem(dataLocation, "[]");
-};
 
 export const AnimalForm = () => {
   const {name, image} = useSelector((state:RootState) => state.animals.newAnimal)
-  const { changeInputImage, changeInputName, onSubmitAnimalForm } = HookAnimalForm(); // destructuring hooks
-
-  const clearLocalStorage = (e:React.MouseEvent) => {
-    e.preventDefault();
-    clearData("animals");
-  };
+  const { changeInputImage, changeInputName, onSubmitAnimalForm, clearLocalStorage } = HookAnimalForm(); // destructuring hooks
 
   const addAnimal = (e:React.MouseEvent) => {
     if (!name || !image) return;
