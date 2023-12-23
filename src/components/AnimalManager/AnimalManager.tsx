@@ -1,29 +1,53 @@
+import { useState } from "react";
 import { AnimalForm } from "../AnimalForm/AnimalForm";
+import css from './AnimalManager.module.css'
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { deleteAnimal, sortAnimals } from "../../app/animalSlice";
+import { Animal } from "../Animal/Animal";
 
-type AnimalData = {
-  name:string;
-  image:string;
-};
-
-localStorage.setItem("animals", JSON.stringify([]))
-
-const checkData = (dataLocation:string) => {
-  const data = localStorage.getItem(dataLocation);
-
-  if (!data) return [];
-
-  return JSON.parse(data);
-};
+enum sort {'↑', '↓'}
 
 export const AnimalManager = () => {
-  const allAnimals: AnimalData[] = checkData("animals");  
+  const { animals } = useSelector((state:RootState) => state.animals)
+  const dispatch = useDispatch();
+
+  const [sortMode, setSortMode] = useState< 1 | 0>(0)
+  //console.log("Ani: ",animals)
+
+  const deleteAnimalButton = (e:React.MouseEvent, id:number) => {
+    e.preventDefault();
+    dispatch(deleteAnimal(id));
+  }
+
 
   return (
     <>
-    <AnimalForm />
-    {!allAnimals.length ? <h3>No Animals</h3> :
-     <h3>Animals :)</h3>
-    }
+      <AnimalForm />
+      <section className={css.animal_section}>
+        <div
+          className={`${css.data_container} ${css.unselectable}`}
+          onClick={() => {
+            setSortMode(!sortMode ? 1 : 0);
+            dispatch(sortAnimals(sortMode))
+          }}  
+        >Name {sort[sortMode]}</div>
+      </section>
+      { !animals.length ? <h3>No Animals</h3> : "" }
+      <section className={css.animal_wrapper}>
+      {
+
+        animals.map((animal, index) => 
+          <Animal
+            key={index}
+            data={animal}
+            index={index}
+            deleteAnimal={deleteAnimalButton}
+          />
+        )
+      }
+      </section>
+
     </>
   );
 };
