@@ -1,49 +1,41 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import css from './AnimalForm.module.css'
-import { addAnimal, setImage, setName } from '../../app/animalSlice';
 import { RootState } from '../../app/store';
+import { HookAnimalForm } from './hooks/animalHook';
+import React from 'react';
 
 const clearData = (dataLocation:string) => {
   localStorage.setItem(dataLocation, "[]");
 };
 
 export const AnimalForm = () => {
-  const dispatch = useDispatch();
-  const { newAnimal } = useSelector((state:RootState) => state.animals)
-  
-  const changeInputImage = (e: React.ChangeEvent<HTMLInputElement>) => {    
-    dispatch(setImage(e.target.value))
+  const {name, image} = useSelector((state:RootState) => state.animals.newAnimal)
+  const { changeInputImage, changeInputName, onSubmitAnimalForm } = HookAnimalForm(); // destructuring hooks
+
+  const clearLocalStorage = (e:React.MouseEvent) => {
+    e.preventDefault();
+    clearData("animals");
   };
 
-  const changeInputName = (e: React.ChangeEvent<HTMLInputElement>) => {    
-    dispatch(setName(e.target.value))
-  };
-  
+  const addAnimal = (e:React.MouseEvent) => {
+    if (!name || !image) return;
+    onSubmitAnimalForm(e);
+  }
+
   return (
     <form id="addAnimal"className={css.form_wrapper}>
       <div className={css.input_container}>
-      <label>Name:</label>
-      <input type="text" onChange={changeInputName} value={newAnimal.name}required/>
+        <label>Name:</label>
+        <input form='addAnimal' type="text" onChange={changeInputName} value={name} required/>
       </div>
 
       <div className={css.input_container}>
-      <label>Image:</label>
-      <input type="text" onChange={changeInputImage} value={newAnimal.image} required/>
+        <label>Image:</label>
+        <input type="text" form='addAnimal' onChange={changeInputImage} value={image} required/>
       </div>
 
-      <button form="addAnimal" type='submit' onClick={(e) => {
-        e.preventDefault();
-        dispatch(addAnimal());
-      }}>Submit</button>
-
-      <button
-      onClick={(e) => {
-        e.preventDefault()
-        clearData("animals");
-      }}
-      >
-        Clear Local Storage
-      </button>
+      <button form="addAnimal" type='submit' onClick={addAnimal}>Submit</button>
+      <button onClick={clearLocalStorage}>Clear Local Storage</button>
     </form>
   );
 }
